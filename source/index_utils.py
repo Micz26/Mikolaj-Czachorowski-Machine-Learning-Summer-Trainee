@@ -23,8 +23,21 @@ import nest_asyncio
 nest_asyncio.apply()
 
 
-
 def get_index(title, text):
+    """
+    Simple indexing strategy: 
+
+    This function takes a title and a list of Document objects as input, 
+    and returns an index.
+
+    Parameters:
+    - title (str): Title of the index.
+    - text (list of Document): List of Document objects containing the text data.
+
+    Returns:
+    - index: generated or loaded index.
+
+    """
     index = None
     if not os.path.exists(os.getcwd()[:-10]+'\\data\\'+title):
         index = VectorStoreIndex.from_documents(text, show_progress=True)
@@ -38,12 +51,37 @@ def get_index(title, text):
 
 
 async def ingestion_pipeline(docs, transformations): 
+    """
+    This function run transformations and creates index from documents
+
+    Parameters:
+    - docs (list): List of documents to be processed.
+    - transformations (list): List of transformations to be applied.
+
+    Returns:
+    - index: The generated index.
+    """
     index = VectorStoreIndex.from_documents(
     docs, transformations=transformations)
     return index
 
 
 async def get_index_adjusted(title, docs, chunk_size, chunk_overlap):
+    """
+    This  function adjusts the indexing process by allowing specification
+    of chunk size and chunk overlap.
+
+    Parameters:
+    - title (str): Title of the index.
+    - docs (list): List of documents to be indexed.
+    - chunk_size (int): Size of each chunk.
+    - chunk_overlap (int): Number of overlapping tokens between consecutive chunks.
+
+    Returns:
+    - index: The generated or loaded index adjusted based on the provided chunk size
+    and chunk overlap.
+
+    """
     index = None
     if not os.path.exists(os.getcwd()[:-10]+'\\data\\'+title):
         text_splitter = TokenTextSplitter(
@@ -59,7 +97,18 @@ async def get_index_adjusted(title, docs, chunk_size, chunk_overlap):
 
 
 def get_sentence_window_index(document, title='Sentence Index', llm=OpenAI(model="gpt-3.5-turbo", temperature=0.1), embed_model="local:BAAI/bge-small-en-v1.5"):
-    # create the sentence window node parser w/ default settings
+    """
+    Generates or loads an index using the Sentence Window approach.
+
+    Parameters:
+    - document (list): List of documents to be indexed.
+    - title (str): Title of the index.
+    - llm: Language model used for processing.
+    - embed_model (str): Embedding model used for processing.
+
+    Returns:
+    - sentence_index: The generated or loaded index.
+    """
     node_parser = SentenceWindowNodeParser.from_defaults(
         window_size=3,
         window_metadata_key="window",
@@ -85,7 +134,17 @@ def get_sentence_window_index(document, title='Sentence Index', llm=OpenAI(model
 
 
 def get_sentence_window_query_engine(sentence_index, similarity_top_k=10, rerank_top_n=2):
-    # define postprocessors
+    """
+    Generates a query engine using the Sentence Window approach.
+
+    Parameters:
+    - sentence_index: Index generated using the Sentence Window approach.
+    - similarity_top_k (int): Number of similar documents to retrieve during querying.
+    - rerank_top_n (int): Number of documents to rerank during querying.
+
+    Returns:
+    - sentence_window_engine: The generated query engine.
+    """
     postproc = MetadataReplacementPostProcessor(target_metadata_key="window")
     rerank = SentenceTransformerRerank(
         top_n=rerank_top_n, model="BAAI/bge-reranker-base"
@@ -98,6 +157,19 @@ def get_sentence_window_query_engine(sentence_index, similarity_top_k=10, rerank
 
 
 def get_automerging_index(documents, title='Automerge Index', llm=OpenAI(model="gpt-3.5-turbo"), embed_model="local:BAAI/bge-small-en-v1.5", chunk_sizes=[2048, 512, 128]):
+    """
+    Generates or loads an index using the Auto Merging Retrieval approach.
+
+    Parameters:
+    - documents (list): List of documents to be indexed.
+    - title (str): Title of the index.
+    - llm: Language model used for processing.
+    - embed_model (str): Embedding model used for processing.
+    - chunk_sizes (list): List of chunk sizes for the hierarchical node parsing.
+
+    Returns:
+    - automerging_index: The generated or loaded index.
+    """
     chunk_sizes = chunk_sizes 
     node_parser = HierarchicalNodeParser.from_defaults(chunk_sizes=chunk_sizes)
     nodes = node_parser.get_nodes_from_documents(documents)
@@ -123,6 +195,17 @@ def get_automerging_index(documents, title='Automerge Index', llm=OpenAI(model="
 
 
 def get_automerging_query_engine(automerging_index, similarity_top_k=12, rerank_top_n=2):
+    """
+    Generates a query engine using the Auto Merging Retrieval approach.
+
+    Parameters:
+    - automerging_index: Index generated using the Auto Merging Retrieval approach.
+    - similarity_top_k (int): Number of similar documents to retrieve during querying.
+    - rerank_top_n (int): Number of documents to rerank during querying.
+
+    Returns:
+    - auto_merging_engine: The generated query engine.
+    """
     base_retriever = automerging_index.as_retriever(similarity_top_k=similarity_top_k)
     retriever = AutoMergingRetriever(
         base_retriever, automerging_index.storage_context, verbose=True
