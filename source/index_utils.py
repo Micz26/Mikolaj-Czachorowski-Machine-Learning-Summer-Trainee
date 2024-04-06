@@ -28,7 +28,7 @@ def get_index(title, text):
     Simple indexing strategy: 
 
     This function takes a title and a list of Document objects as input, 
-    and returns an index.
+    and returns an index. 
 
     Parameters:
     - title (str): Title of the index.
