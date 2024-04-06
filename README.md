@@ -11,7 +11,7 @@
 1. Clone the repository:
     
     ```
-    git clone [your_repo_link]
+    git clone https://github.com/Micz26/Mikolaj-Czachorowski-Machine-Learning-Summer-Trainee.git
     ```
 
 2. Navigate to the cloned repository directory:
@@ -28,7 +28,7 @@
     ```
     venv\Scripts\activate
     ```
-5. Set your OpenAI API key as an environment variable:
+5. Set your OpenAI API key as an environment variable - [more complex guide](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/):
     ```
     export OPENAI_API_KEY=your_api_key
     ```
