@@ -1,10 +1,10 @@
 # Nokia - Machine Learning Summer Trainee - recruitment task | Mikołaj Czachorowski
 
 - Engineered four distinct RAG models, each showcasing unique advantages and drawbacks.
-- Designed four methods ([indexing strategy functions](source/index_utils.py)) to organize and structure the "1300 Towards Data Science Medium Articles" dataset, facilitating efficient searchability and accessibility.
+- Designed four methods ([indexing strategy functions](source/index_utils.py)) to organize and structure the [1300 Towards Data Science Medium Articles dataset](https://www.kaggle.com/datasets/meruvulikith/1300-towards-datascience-medium-articles-dataset), facilitating efficient searchability and accessibility.
 - Developed robust retrieval systems ([RAG models implementation](source/rag_model.py)) utilizing RAG to locate and provide relevant article fragments promptly.
 - Implemented smart chunking strategies to break down articles into smaller sections, ensuring optimal balance between fragment length and content richness.
-- Presented and compared the results of the models in [models validation notebook](notebooks/model_validation.ipynb).
+- **Presented and compared the results of the models in [models validation notebook](notebooks/model_validation.ipynb).**
 
 ## Installation steps
 
