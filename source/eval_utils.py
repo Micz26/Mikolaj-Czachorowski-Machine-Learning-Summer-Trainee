@@ -8,6 +8,7 @@ from trulens_eval import (
     OpenAI
 )
 from trulens_eval.feedback import Groundedness
+import matplotlib.pyplot as plt
 import nest_asyncio
 
 nest_asyncio.apply()
@@ -100,4 +101,43 @@ def get_prebuilt_trulens_recorder(query_engine, app_id):
         feedbacks=feedbacks
         )
     return tru_recorder
+
+def score_histogram(records, column_name, model_name):
+    """
+    Function takes DataFrame (records), column name (column_name) and model_name
+    Displays histogram for the column
+    """
+    
+    plt.figure(figsize=(10, 6))
+    plt.hist(records[column_name], bins=20, color='green', edgecolor='black')
+    plt.title(f'{model_name} {column_name} Histogram')
+    plt.xlabel(column_name)
+    plt.ylabel('Count')
+    plt.grid(True)
+    plt.show()
+
+def score_boxplot(r1, r2, r3, column_name):
+    """
+    Function takes three DataFrames (r1, r2, r3) and a column name (column_name),
+    then displays boxplots for each of these DataFrames,
+    with mean values marked.
+    """
+    plt.figure(figsize=(12, 6))
+    plt.boxplot([r1[column_name], r2[column_name], r3[column_name]], patch_artist=True, showmeans=True)
+    
+    plt.xticks([1, 2, 3], ['Initial Model', 'Sentence Window Model', 'Auto Merge Model'])
+
+    means = [r1[column_name].mean(), r2[column_name].mean(), r3[column_name].mean()]
+    for i, mean in enumerate(means, start=1):
+        plt.scatter(i, mean, color='red', label='Mean' if i == 1 else None)
+    
+    plt.title(f'Boxplots for column {column_name}')
+    plt.xlabel('DataFrame')
+    plt.ylabel(column_name)
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+
 
