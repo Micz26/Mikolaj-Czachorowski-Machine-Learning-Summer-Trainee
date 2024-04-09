@@ -39,32 +39,6 @@ def get_hf_api_key():
 
 openai = OpenAI()
 
-# Answer Relevance
-qa_relevance = (
-    Feedback(openai.relevance_with_cot_reasons, name="Answer Relevance")
-    .on_input_output()
-)
-
-# Context Relevance
-qs_relevance = (
-    Feedback(openai.relevance_with_cot_reasons, name = "Context Relevance")
-    .on_input()
-    .on(TruLlama.select_source_nodes().node.text)
-    .aggregate(np.mean)
-)
-
-# grounded 
-grounded = Groundedness(groundedness_provider=openai)
-
-groundedness = (
-    Feedback(grounded.groundedness_measure_with_cot_reasons, name="Groundedness")
-        .on(TruLlama.select_source_nodes().node.text)
-        .on_output()
-        .aggregate(grounded.grounded_statements_aggregator)
-)
-
-feedbacks = [qa_relevance, qs_relevance, groundedness]
-
 def get_trulens_recorder(query_engine, feedbacks, app_id):
     """
     Creates a TruLens recorder object for recording feedback.
@@ -138,6 +112,30 @@ def score_boxplot(r1, r2, r3, column_name):
     plt.grid(True)
     plt.show()
 
+# Answer Relevance
+qa_relevance = (
+    Feedback(openai.relevance_with_cot_reasons, name="Answer Relevance")
+    .on_input_output()
+)
 
+# Context Relevance
+qs_relevance = (
+    Feedback(openai.relevance_with_cot_reasons, name = "Context Relevance")
+    .on_input()
+    .on(TruLlama.select_source_nodes().node.text)
+    .aggregate(np.mean)
+)
+
+# Groundedness
+grounded = Groundedness(groundedness_provider=openai)
+
+groundedness = (
+    Feedback(grounded.groundedness_measure_with_cot_reasons, name="Groundedness")
+        .on(TruLlama.select_source_nodes().node.text)
+        .on_output()
+        .aggregate(grounded.grounded_statements_aggregator)
+)
+
+feedbacks = [qa_relevance, qs_relevance, groundedness]
 
 
