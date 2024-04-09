@@ -21,13 +21,24 @@
     ```
 
 3. Create a Python virtual environment:
+ 
+   For Windows:
     ```
     python -m venv venv
     ```
+    For macOs, Linux:
+    ```
+    python3 -m venv venv
+    ```
 4. Activate the virtual environment:
 
+    For Windows:
     ```
     venv\Scripts\activate
+    ```
+    For macOs, Linux:
+    ```
+    source venv/bin/activate
     ```
 5. Install the required dependencies from the [requirements.txt](requirements.txt):
    ```
