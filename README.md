@@ -1,9 +1,9 @@
 # Nokia - Machine Learning Summer Trainee - recruitment task | Mikołaj Czachorowski
 
-- Engineered four distinct RAG models, each showcasing unique advantages and drawbacks.
+- Engineered 4 distinct RAG models, each showcasing unique advantages and drawbacks.
 - Designed four methods ([indexing strategy functions](source/index_utils.py)) to organize and structure the [1300 Towards Data Science Medium Articles dataset](https://www.kaggle.com/datasets/meruvulikith/1300-towards-datascience-medium-articles-dataset), facilitating efficient searchability and accessibility.
-- Developed robust retrieval systems ([RAG models implementation](source/rag_model.py)) utilizing RAG to locate and provide relevant article fragments promptly.
 - Implemented smart chunking strategies to break down articles into smaller sections, ensuring optimal balance between fragment length and content richness.
+- Developed 4 robust retrieval systems ([RAG models implementation](source/rag_model.py)) utilizing RAG to locate and provide relevant article fragments promptly.
 - Prepared evaluation tools ([evaluation tools](source/eval_utils.py))
 - **Presented and compared the results of the models in [models validation notebook](notebooks/model_validation.ipynb).**
 
@@ -81,6 +81,6 @@ def get_index(title, text):
 ```
 In this code, we would need to adjust _'persist_dir'_, as it currently assumes we are working in the notebooks folder. We can either:
 
-- Use persist_dir=title, so the index will be saved in the current working directory.
-- Adjust persist_dir to save the index where we want.
+- Use _`persist_dir'_=title, so the index will be saved in the current working directory.
+- Adjust _`persist_dir'_ to save the index where we want.
 
