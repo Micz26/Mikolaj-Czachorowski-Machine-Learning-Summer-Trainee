@@ -4,6 +4,7 @@
 - Designed four methods ([indexing strategy functions](source/index_utils.py)) to organize and structure the [1300 Towards Data Science Medium Articles dataset](https://www.kaggle.com/datasets/meruvulikith/1300-towards-datascience-medium-articles-dataset), facilitating efficient searchability and accessibility.
 - Developed robust retrieval systems ([RAG models implementation](source/rag_model.py)) utilizing RAG to locate and provide relevant article fragments promptly.
 - Implemented smart chunking strategies to break down articles into smaller sections, ensuring optimal balance between fragment length and content richness.
+- Prepared evaluation tools ([evaluation tools](source/eval_utils.py))
 - **Presented and compared the results of the models in [models validation notebook](notebooks/model_validation.ipynb).**
 
 ## Installation steps
@@ -28,12 +29,12 @@
     ```
     venv\Scripts\activate
     ```
-5. Set your OpenAI API key as an environment variable - [more complex guide](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/):
-    ```
-    export OPENAI_API_KEY=your_api_key
-    ```
-6. Install the required dependencies from the [requirements.txt](requirements.txt):
+5. Install the required dependencies from the [requirements.txt](requirements.txt):
    ```
    pip install -r requirements.txt
    ```
+6. Set your OpenAI API key as an environment variable - [more complex guide](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/):
+    ```
+    export OPENAI_API_KEY=your_api_key
+    ```
 
