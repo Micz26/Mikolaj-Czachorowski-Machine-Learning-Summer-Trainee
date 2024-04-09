@@ -7,7 +7,7 @@
 - Prepared evaluation tools ([evaluation tools](source/eval_utils.py))
 - **Presented and compared the results of the models in [models validation notebook](notebooks/model_validation.ipynb).**
 
-## Installation steps
+## Configuration
 
 1. Clone the repository:
     
@@ -37,4 +37,39 @@
     ```
     export OPENAI_API_KEY=your_api_key
     ```
+## Usage
+
+After completing all installation steps, you can run the code. When creating any of the RAG models provided by me, indexes are generated for different models and saved in the [data folder](data/), so you don't need to create the index again later; it is loaded instead. If you want to use my models outside the notebook, you may need to customize the code. For example, the basic `get_index` function:
+
+```python
+def get_index(title, text):
+    """
+    Simple indexing strategy: 
+
+    This function takes a title and a list of Document objects as input, 
+    and returns an index. 
+
+    Parameters:
+    - title (str): Title of the index.
+    - text (list of Document): List of Document objects containing the text data.
+
+    Returns:
+    - index: generated or loaded index.
+
+    """
+    index = None
+    if not os.path.exists(os.getcwd()[:-10]+'\\data\\'+title):
+        index = VectorStoreIndex.from_documents(text, show_progress=True)
+        index.storage_context.persist(persist_dir=os.getcwd()[:-10]+'\\data\\'+title)   
+    else:
+        index = load_index_from_storage(
+            StorageContext.from_defaults(persist_dir=os.getcwd()[:-10]+'\\data\\'+title)
+        )
+
+    return index
+```
+In this code, we would need to adjust _'persist_dir'_, as it currently assumes we are working in the notebooks folder. We can either:
+
+- Use persist_dir=title, so the index will be saved in the current working directory.
+- Adjust persist_dir to save the index where we want.
 
