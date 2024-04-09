@@ -123,7 +123,7 @@ def score_boxplot(r1, r2, r3, column_name):
     with mean values marked.
     """
     plt.figure(figsize=(12, 6))
-    plt.boxplot([r1[column_name], r2[column_name], r3[column_name]], patch_artist=True, showmeans=True)
+    plt.boxplot([r1[column_name], r2[column_name], r3[column_name]], patch_artist=True)
     
     plt.xticks([1, 2, 3], ['Initial Model', 'Sentence Window Model', 'Auto Merge Model'])
 
