@@ -7,7 +7,7 @@
 - Prepared evaluation tools ([evaluation tools](source/eval_utils.py))
 - **Presented and compared the results of the models in [models validation notebook](notebooks/model_validation.ipynb).**
 
-## Configuration
+## Set up Instructions
 
 1. Clone the repository:
     
@@ -37,9 +37,9 @@
     ```
     export OPENAI_API_KEY=your_api_key
     ```
-## Usage
+## Configuration and Operation
 
-After completing all installation steps, you can run the code. When creating any of the RAG models provided by me, indexes are generated for different models and saved in the [data folder](data/), so you don't need to create the index again later; it is loaded instead. If you want to use my models outside the notebook, you may need to customize the code. For example, the basic `get_index` function:
+After completing all installation steps, you can run the code. When creating any of the RAG models provided by me, indexes are generated for different models and saved in the [data folder](data/), so there is no need to create the index again later; it is loaded instead. To use my models outside the [notebooks folder](notebooks), some code changes in [indexing strategy functions](source/index_utils.py) and [RAG models implementation](source/rag_model.py) might be needed. For example, in the basic _`get_index`_ function:
 
 ```python
 def get_index(title, text):
